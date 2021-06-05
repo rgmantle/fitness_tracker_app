@@ -2,15 +2,20 @@
 // const { } = require('./');
 const client = require('./client');
 
+const { createUser } = require('./users');
+const { createActivity, getAllActivities } = require('./activities')
+const { createRoutine, getRoutinesWithoutActivities } = require('./routines')
+const { addActivityToRoutine } = require('./routine_activities')
+
 async function dropTables() {
   try {
   console.log('Dropping All Tables...');
   // drop all tables, in the correct order
   client.query(`
-    DROP TABLE IF EXISTS users;
-    DROP TABLE IF EXISTS activities;
+    DROP TABLE IF EXISTS routine_activities;
     DROP TABLE IF EXISTS routines;
-    DROP TABLE IF EXISTS routineActivities
+    DROP TABLE IF EXISTS activities;
+    DROP TABLE IF EXISTS users
     `);
 
     console.log('Finished dropping tables!');
@@ -21,17 +26,16 @@ async function dropTables() {
   }
 }
 
-
-
 async function createTables() {
-  try {
+  
   console.log("Starting to build tables...");
   // create all tables, in the correct order
+  try {
   await client.query(`
   CREATE TABLE users(
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
     );
 
   CREATE TABLE activities(
@@ -42,20 +46,22 @@ async function createTables() {
 
   CREATE TABLE routines(
     id SERIAL PRIMARY KEY,
-    "creatorId" INTEGER FOREIGN KEY,
+    "creatorId" INTEGER REFERENCES users(id),
     "isPublic" BOOLEAN DEFAULT false,
     name VARCHAR(255) UNIQUE NOT NULL,
     goal TEXT NOT NULL
   );
 
-  CREATE TABLE routineActivities(
+  CREATE TABLE routine_activities(
     id SERIAL PRIMARY KEY,
-    "routineId" INTEGER FOREIGN KEY,
-    "activityId" INTEGER FOREIGN KEY,
+    "routineId" INTEGER REFERENCES routines(id),
+    "activityId" INTEGER REFERENCES activities(id),
     duration INTEGER,
-    count INTEGER
+    count INTEGER,
+    UNIQUE ("routineId", "activityId")
   );
 `);
+
 console.log('Finished constructing tables!');
 } catch (error) {
   console.error('Error constructing tables!');
