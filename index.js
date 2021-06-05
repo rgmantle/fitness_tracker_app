@@ -1,38 +1,24 @@
-// create the express server here
-require('dotenv').config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 const { PORT = 3000 } = process.env;
-const express = require('express');
-const server = express();
+const SECRET = process.env.SECRET;
+const express = require("express");
+const app = express();
+app.use(express.json());
 
-const morgan = require('morgan');
-server.use(morgan('dev'));
+const cors = require("cors");
+app.use(cors());
 
-// const { client } = require('./db');
-// client.connect();
+const morgan = require("morgan");
+app.use(morgan("dev"));
 
-// const apiRouter = require('./api');
-// server.use('/api', apiRouter);
+const client = require("./db/client.js");
 
-// server.use((req, res, next) => {
-//     console.log("<____Body Logger START____>");
-//     console.log(req.body);
-//     console.log("<_____Body Logger END_____>");
-  
-//     next();
-//   });
+const apiRouter = require("./api/index.js");
+app.use("/api", apiRouter)
 
-// server.use('/api', (request, response, next) => {
-//     console.log("A request was made to /api (this is the middleware).");
-//     next();
-// })
-
-
-// server.get('/api', (request, response, next) => {
-//     console.log("A get request was made to /api");
-//     response.send({message: "success"});
-// })
-
-server.listen(PORT, () => {
-    console.log('The server is up on port', PORT)
-  });
+app.listen(PORT, () => {
+    console.log("The server is up on port: ", PORT);
+    client.connect();
+});
