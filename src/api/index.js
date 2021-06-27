@@ -1,30 +1,48 @@
-// create an api router
-// attach other routers from files in this api directory (users, activities...)
-// export the api router
+export const BASE_URL = process.env.NODE_ENV === 'production' ? '' : 'https://fitnesstrac-kr.herokuapp.com';
 
-const { Router } = require("express");
-const apiRouter = Router();
+// REGISTER A USER
+export async function registerUser(username, password) {
+  const url = `${BASE_URL}/api/users/register`
 
-apiRouter.get("/health", async (req, res, next) => {
-    try {
-        res.send({
-            message: "The health is good"
-        });
-    } catch (error) {
-        next(error);
-    }
-});
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    })
+    const {token} = await response.json()
+    localStorage.setItem("token", JSON.stringify(token))
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-const usersRouter = require("./users.js");
-apiRouter.use("/users", usersRouter);
+// LOGIN USER
+export async function loginUser(usernameValue, passwordValue) {
+  const url = `${BASE_URL}/api/users/login`
+  console.log(usernameValue, passwordValue)
 
-const activitiesRouter = require("./activities.js");
-apiRouter.use("/activities", activitiesRouter); 
-
-const routineRouter = require("./routines.js");
-apiRouter.use("/routines", routineRouter);
-
-const routineActivitiesRouter = require("./routine_activities.js");
-apiRouter.use("/routine_activities", routineActivitiesRouter);
-
-module.exports = apiRouter;
+  try {
+      const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+        },
+          body: JSON.stringify({
+              user: {
+                  username: usernameValue,
+                  password: passwordValue
+              }
+          })  
+      })
+      const { token } = await response.json()
+      localStorage.setItem("token", JSON.stringify(token))
+  } catch (error) {
+      console.log(error)
+  }
+}

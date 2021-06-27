@@ -19,8 +19,8 @@ app.use(express.static(path.join(__dirname,'build')));
 
 const client = require("./db/client.js");
 
-const apiRouter = require("./api/index.js");
-app.use("/api", apiRouter)
+// const apiRouter = require("./api/index.js");
+// app.use("/api", apiRouter)
 
 app.listen(PORT, () => {
     console.log("The server is up on port: ", PORT);

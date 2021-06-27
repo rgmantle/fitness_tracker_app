@@ -1,8 +1,11 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import cors from 'cors';
 
-import { Header, Activities, Routines, LoginRegister } from './components';
+import { Home, Activities, Routines, LoginRegister } from './components';
+import { BASE_URL } from './api';
 
 const App = () => {
     const [activities, setActivities] = useState([]);
@@ -10,6 +13,7 @@ const App = () => {
     return (
         <BrowserRouter>
             <Header />
+            <Home />
             <Switch>
                 <Route path={"/routines"}>
                     <Routines />
@@ -35,4 +39,4 @@ const App = () => {
 };
 
 ReactDOM.render(<App />, 
-    document.getElementById("root"));
+    document.getElementById("app"));
