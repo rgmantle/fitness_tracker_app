@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { getActivities } from '../api';
 
+import './style.css';
+
 const Activities = (props) => {
     const {activities, setActivities } = props;
 
@@ -32,3 +34,15 @@ const Activities = (props) => {
 };
 
 export default Activities;
+
+// import React from 'react';
+
+// const Activities = () => {
+//     return (
+//         <button>
+//             Activities
+//         </button>
+//     )
+// }
+
+// export default Activities;

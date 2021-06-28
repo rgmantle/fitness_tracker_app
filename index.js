@@ -1,5 +1,5 @@
 // don't put react here
-const path = require('path');
+// const path = require('path');
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -15,7 +15,7 @@ app.use(cors());
 const morgan = require("morgan");
 app.use(morgan("dev"));
 
-app.use(express.static(path.join(__dirname,'build')));
+// app.use(express.static(path.join(__dirname,'public')));
 
 const client = require("./db/client.js");
 

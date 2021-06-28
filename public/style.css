@@ -1,0 +1,44 @@
+  
+:root {
+    --bg-color: rgb(61, 61, 61);
+    --accent-color: rgb(238, 55, 10);
+  }
+  
+  #activities {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--bg-color);
+    margin-top: 0.5rem;
+    margin-left: 25%;
+    margin-right: 25%;
+    color: white;
+  }
+  
+  #activities ul {
+    padding: 10px;
+    margin: 10px;
+  }
+
+  #header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    background-color: var(--bg-color);
+    color: var(--accent-color);
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: var(--accent-color) 5px solid;
+  }
+  
+  #links a {
+    margin-left: 1rem;
+    text-decoration: none;
+    color: var(--accent-color);
+    font-size: 1.5rem;
+  }
+  
+  #links a:last-of-type {
+    margin-right: 1rem;
+  }
