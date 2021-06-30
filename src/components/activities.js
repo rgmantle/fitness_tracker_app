@@ -16,6 +16,7 @@ const Activities = (props) => {
 
     return (
         <div id="activities">
+            <h2>There are currently {activities.length} activities in the database.</h2>
             <ul>
                 {activities.map((activity, index) => {
                     return (
